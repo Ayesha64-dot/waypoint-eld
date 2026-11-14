@@ -1,0 +1,13 @@
+# Alternative backend host (Render free tier). Frontend stays on Vercel.
+services:
+  - type: web
+    name: waypoint-eld-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn eld_backend.wsgi --bind 0.0.0.0:$PORT --timeout 60
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: CORS_ALLOWED_ORIGINS
+        value: "*"
